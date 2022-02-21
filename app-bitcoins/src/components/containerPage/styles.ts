@@ -30,7 +30,6 @@ export const Home = styled.div`
     padding-top: 30px;
     padding-bottom: 15px;
     margin-bottom: 20px;
-    margin-top: 50px;
     margin-left: auto;
     margin-right: auto;
 `;
