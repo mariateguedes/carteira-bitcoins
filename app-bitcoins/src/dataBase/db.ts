@@ -5,19 +5,21 @@ export interface User {
   name: string;
   email: string;
   password: string;
+  real: number;
+  bitcoin: number;
+  brita: number;
 }
 
 export class MySubClassedDexie extends Dexie {
-  // 'friends' is added by dexie when declaring the stores()
-  // We just tell the typing system this is the case
   users!: Table<User>; 
 
   constructor() {
     super('myDatabase');
     this.version(1).stores({
-      users: '++id, name, email, password' // Primary key and indexed props
+      users: '++id, name, email, password, real, bitcoin, brita' 
     });
-  }
+  };
+
 }
 
 export const db = new MySubClassedDexie();

@@ -20,13 +20,18 @@ const Register: React.FunctionComponent = () => {
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState("");
 
-  async function addFriend() {
+  async function register() {
     try {
-      // Add the new friend!
+      const real = 100000;
+      const bitcoin = 0;
+      const brita = 0;
       const id = await db.users.add({
         name,
         email,
         password,
+        real,
+        bitcoin,
+        brita,
       });
 
       setStatus(`Friend ${name} successfully added. Got id ${id}`);
@@ -42,12 +47,13 @@ const Register: React.FunctionComponent = () => {
 
   return (
     <ContainerPage>
-      <p>{status}</p>
       <FormContainer>
+        <Typography variant="h5">Cadastre-se</Typography>
         <TextField
           required
           id="name"
           label="Nome"
+          variant="outlined"
           value={name}
           onChange={(ev) => setName(ev.target.value)}
         />
@@ -55,6 +61,7 @@ const Register: React.FunctionComponent = () => {
           required
           id="email"
           label="E-mail"
+          variant="outlined"
           value={email}
           onChange={(ev) => setEmail(ev.target.value)}
         />
@@ -63,10 +70,11 @@ const Register: React.FunctionComponent = () => {
           type="password"
           id="password"
           label="Password"
+          variant="outlined"
           value={password}
           onChange={(ev) => setPassword(ev.target.value)}
         />
-        <Button variant="contained" onClick={addFriend}>
+        <Button variant="contained" size="medium" onClick={register}>
           Registrar
         </Button>
       </FormContainer>
