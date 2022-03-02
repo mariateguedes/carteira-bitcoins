@@ -9,7 +9,7 @@ export interface CotacaoBitcoinResult {
     date: number;
 }
 
-export interface CotaçãoDolarResult {
+export interface CotacaoDolarResult {
     cotacaoCompra: number;
     cotacaoVenda: number;
     dataHoraCotacao: Date;

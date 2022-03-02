@@ -7,7 +7,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import ContainerPage from "../../components/containerPage/ContainerPage";
-import { CotaçãoDolarResult, CotacaoBitcoinResult } from "../../api/Models";
+import { CotacaoDolarResult, CotacaoBitcoinResult } from "../../api/Models";
 import axios from "axios";
 import { getApiMercadoBitcoin, getCotacaoDolar } from "../../api/Api";
 import { db } from "../../dataBase/db";

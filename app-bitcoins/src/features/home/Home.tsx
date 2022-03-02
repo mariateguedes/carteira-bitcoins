@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Box, Button, Grid, Modal, ThemeProvider, Typography } from "@material-ui/core";
 import ContainerPage from "../../components/containerPage/ContainerPage";
-import { CotaçãoDolarResult, CotacaoBitcoinResult } from "../../api/Models";
+import { CotacaoDolarResult, CotacaoBitcoinResult } from "../../api/Models";
 import axios from "axios";
 import { getApiMercadoBitcoin, getCotacaoDolar } from "../../api/Api";
 import ValuesContainer from "../../components/valuesContainer/ValuesContainer";
@@ -23,7 +23,7 @@ async function getUserData(userId: number) {
 const Home: React.FunctionComponent = () => {
   const [data, setData] = useState<CotacaoBitcoinResult>();
   const [open, setOpen] = useState(false);
-  const [cotacaoDolar, setCotacaoDolar] = useState<CotaçãoDolarResult>();
+  const [cotacaoDolar, setCotacaoDolar] = useState<CotacaoDolarResult>();
   const { userId, userName } = useAuthentication();
   const [user, setUser] = useState<User>();
 
@@ -49,7 +49,7 @@ const Home: React.FunctionComponent = () => {
     <>
       <ContainerPage>
       <Button onClick={() => setOpen(true)}>Vender/Trocar</Button>
-      <Modal open={open} onClose={() => setOpen(false)}><NewTransaction onClick={() => setOpen(false)}/></Modal>
+      <Modal open={open} onClose={() => setOpen(false)}><NewTransaction onClick={() => setOpen(false)} user={user && user} cotacaoDolar={cotacaoDolar}/></Modal>
         <div style={{ display: "flex", justifyContent: "space-around" }}>
           <WalletContainer
             title="Real"
@@ -57,10 +57,10 @@ const Home: React.FunctionComponent = () => {
             type="real"
           />
           <ValuesContainer
-            title="Cotação Bitcoin"
-            sell={data.sell}
-            buy={data.buy}
-            type="real"
+            title="Cotação Dolar"
+            sell={cotacaoDolar.cotacaoVenda.toString()}
+            buy={cotacaoDolar.cotacaoCompra.toString()}
+            type="dol"
           />
         </div>
         <div style={{ display: "flex", justifyContent: "space-around" }}>
