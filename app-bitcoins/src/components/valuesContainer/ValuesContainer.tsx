@@ -20,17 +20,17 @@ const ValuesContainer: React.FunctionComponent<ValuesContainerProps> = ({
       <Typography variant="h5" color="textSecondary">{title}:</Typography>
       <Flex>
         {type == "real" ? (
-          <Typography variant="h4">R$ {Number(sell).toFixed(2)} </Typography>
+          <Typography variant="h5" color="textSecondary">R$ {Number(sell).toFixed(2)} </Typography>
         ) : (
-          <Typography variant="h4">US$ {Number(sell).toFixed(2)} </Typography>
+          <Typography variant="h5" color="textSecondary">US$ {Number(sell).toFixed(2)} </Typography>
         )}
         <Typography color="textSecondary">venda</Typography>
       </Flex>
       <Flex>
         {type == "real" ? (
-          <Typography variant="h4">R$ {Number(buy).toFixed(2)} </Typography>
+          <Typography variant="h5" color="textSecondary">R$ {Number(buy).toFixed(2)} </Typography>
         ) : (
-          <Typography variant="h4">US$ {Number(buy).toFixed(2)} </Typography>
+          <Typography variant="h5" color="textSecondary">US$ {Number(buy).toFixed(2)} </Typography>
         )}
         <Typography color="textSecondary">compra</Typography>
       </Flex>

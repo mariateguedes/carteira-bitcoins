@@ -25,7 +25,6 @@ export const HeaderContainer = styled.div`
 export const Home = styled.div`
     border-radius: 10px;
     background: whitesmoke;
-    width: 65%;
     height: auto;
     padding-top: 30px;
     padding-bottom: 15px;
@@ -35,9 +34,9 @@ export const Home = styled.div`
 `;
 
 export const Data = styled.div`
-    width: 50%;
+    width: 75%;
     height: 50%;
-    margin-top: 17%;
+    margin-top: 4%;
     padding-bottom: 35px;
     margin-bottom: 30%;
     margin-left: auto;

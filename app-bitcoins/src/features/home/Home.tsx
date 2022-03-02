@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Box, ThemeProvider, Typography } from "@material-ui/core";
+import { Box, Button, Grid, Modal, ThemeProvider, Typography } from "@material-ui/core";
 import ContainerPage from "../../components/containerPage/ContainerPage";
 import { CotaçãoDolarResult, CotacaoBitcoinResult } from "../../api/Models";
 import axios from "axios";
 import { getApiMercadoBitcoin, getCotacaoDolar } from "../../api/Api";
 import ValuesContainer from "../../components/valuesContainer/ValuesContainer";
-import { useAuthentication } from "../../authentication/AuthenticationProvider";
 import { db, User } from "../../dataBase/db";
+import WalletContainer from "../../components/walletContainer/WalletContainer";
+import { useAuthentication } from "../../authentication/AuthenticationProvider";
+import ModalContainer from "../../components/modalContainer/ModalContainer";
+import NewTransaction from "./newTransaction/NewTransaction";
 
 async function getUserData(userId: number) {
   try {
@@ -19,6 +22,7 @@ async function getUserData(userId: number) {
 
 const Home: React.FunctionComponent = () => {
   const [data, setData] = useState<CotacaoBitcoinResult>();
+  const [open, setOpen] = useState(false);
   const [cotacaoDolar, setCotacaoDolar] = useState<CotaçãoDolarResult>();
   const { userId, userName } = useAuthentication();
   const [user, setUser] = useState<User>();
@@ -44,21 +48,41 @@ const Home: React.FunctionComponent = () => {
   return (
     <>
       <ContainerPage>
-        <ValuesContainer
-          title="Cotação Bitcoin"
-          sell={data.sell}
-          buy={data.buy}
-          type="real"
-        />
-        <ValuesContainer
-          title="Cotação dólar"
-          sell={String(cotacaoDolar.cotacaoVenda)}
-          buy={String(cotacaoDolar?.cotacaoCompra)}
-          type="dol"
-        />
-        <div>Real: {user?.real}</div>
-        <div>Bitcoin: {user?.bitcoin}</div>
-        <div>Brita: {user?.brita}</div>
+      <Button onClick={() => setOpen(true)}>Vender/Trocar</Button>
+      <Modal open={open} onClose={() => setOpen(false)}><NewTransaction onClick={() => setOpen(false)}/></Modal>
+        <div style={{ display: "flex", justifyContent: "space-around" }}>
+          <WalletContainer
+            title="Real"
+            value={String(user?.real)}
+            type="real"
+          />
+          <ValuesContainer
+            title="Cotação Bitcoin"
+            sell={data.sell}
+            buy={data.buy}
+            type="real"
+          />
+        </div>
+        <div style={{ display: "flex", justifyContent: "space-around" }}>
+          <WalletContainer
+            title="Bitcoin"
+            value={String(user?.bitcoin)}
+            type="real"
+          />
+          <ValuesContainer
+            title="Cotação Bitcoin"
+            sell={data.sell}
+            buy={data.buy}
+            type="real"
+          />
+        </div>
+        <div style={{ display: "flex", justifyContent: "space-around" }}>
+          <WalletContainer
+            title="Brita"
+            value={String(user?.brita)}
+            type="real"
+          />
+        </div>
       </ContainerPage>
     </>
   );
