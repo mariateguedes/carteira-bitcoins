@@ -3,17 +3,21 @@ import { Box, Button, Grid, Modal, ThemeProvider, Typography } from "@material-u
 import ContainerPage from "../../components/containerPage/ContainerPage";
 import { CotacaoDolarResult, CotacaoBitcoinResult } from "../../api/Models";
 import axios from "axios";
-import { getApiMercadoBitcoin, getCotacaoDolar } from "../../api/Api";
 import ValuesContainer from "../../components/valuesContainer/ValuesContainer";
 import { db, User } from "../../dataBase/db";
 import WalletContainer from "../../components/walletContainer/WalletContainer";
 import { useAuthentication } from "../../authentication/AuthenticationProvider";
 import ModalContainer from "../../components/modalContainer/ModalContainer";
 import NewTransaction from "./newTransaction/NewTransaction";
+import { DefaultRootState, useDispatch, useSelector } from "react-redux";
+import { getCotacaoBitcoin, getCotacaoDolar } from "../CriptoBankSlice";
+import { useAppSelector } from "../../store";
 
 async function getUserData(userId: number) {
+  console.log('cegando', userId);
   try {
     const user = await db.users.where({ id: userId }).first();
+    console.log('useraqui', userId);
     return user;
   } catch {
     alert("Não foi possível fazer login. Tente novamente.");
@@ -21,35 +25,32 @@ async function getUserData(userId: number) {
 }
 
 const Home: React.FunctionComponent = () => {
-  const [data, setData] = useState<CotacaoBitcoinResult>();
   const [open, setOpen] = useState(false);
-  const [cotacaoDolar, setCotacaoDolar] = useState<CotacaoDolarResult>();
   const { userId, userName } = useAuthentication();
   const [user, setUser] = useState<User>();
+  const dispatch = useDispatch();
+
+  const { cotacaoBitcoin, cotacaoDolar } = useAppSelector((store) => store.rootReducer.criptoBank);
 
   console.log("user", user);
 
   if (userId == undefined) return null;
 
   useEffect(() => {
-    getApiMercadoBitcoin().then((res) => {
-      return setData(res);
-    });
-    getCotacaoDolar().then((res) => {
-      return setCotacaoDolar(res.value[0]);
-    });
     getUserData(userId).then((res) => {
       return setUser(res);
     });
+    dispatch(getCotacaoDolar());
+    dispatch(getCotacaoBitcoin());
   }, []);
 
-  if (data == undefined || cotacaoDolar == undefined) return null;
+  //if (cotacaoBitcoin == undefined || cotacaoDolar == undefined) return <>loading</>;
 
   return (
     <>
       <ContainerPage>
       <Button onClick={() => setOpen(true)}>Vender/Trocar</Button>
-      <Modal open={open} onClose={() => setOpen(false)}><NewTransaction onClick={() => setOpen(false)} user={user && user} cotacaoDolar={cotacaoDolar}/></Modal>
+      <Modal open={open} onClose={() => setOpen(false)}><NewTransaction onClick={() => setOpen(false)} user={user && user} cotacaoDolar={cotacaoDolar && cotacaoDolar}/></Modal>
         <div style={{ display: "flex", justifyContent: "space-around" }}>
           <WalletContainer
             title="Real"
@@ -58,8 +59,8 @@ const Home: React.FunctionComponent = () => {
           />
           <ValuesContainer
             title="Cotação Dolar"
-            sell={cotacaoDolar.cotacaoVenda.toString()}
-            buy={cotacaoDolar.cotacaoCompra.toString()}
+            sell={cotacaoDolar && cotacaoDolar.cotacaoVenda.toString()}
+            buy={cotacaoDolar && cotacaoDolar.cotacaoCompra.toString()}
             type="dol"
           />
         </div>
@@ -71,8 +72,8 @@ const Home: React.FunctionComponent = () => {
           />
           <ValuesContainer
             title="Cotação Bitcoin"
-            sell={data.sell}
-            buy={data.buy}
+            sell={cotacaoBitcoin && cotacaoBitcoin.sell}
+            buy={cotacaoBitcoin && cotacaoBitcoin.buy}
             type="real"
           />
         </div>

@@ -12,6 +12,26 @@ import { CotacaoDolarResult } from "../../../api/Models";
 import ModalContainer from "../../../components/modalContainer/ModalContainer";
 import { db, User } from "../../../dataBase/db";
 
+interface Type {
+  value: string;
+  name: string;
+}
+
+const types: Type[] = [
+  {
+    value: 'real',
+    name: 'Real'
+  },
+  {
+    value: 'bitcoin',
+    name: 'Bitcoin'
+  },
+  {
+    value: 'brita',
+    name: 'Brita'
+  }
+]
+
 interface NewTransactionProps {
   onClick: () => void;
   user?: User;
@@ -40,6 +60,7 @@ const NewTransaction: React.FunctionComponent<NewTransactionProps> = ({
     if (optionTo == "brita" && cotacaoDolar) {
         const trans = (value * cotacaoDolar?.cotacaoVenda) * cotacaoDolar?.cotacaoVenda;
         const test = user && user?.real - trans;
+        console.log('test', test);
         if (test && test > 0) {
             setAble(true);
             console.log('djfhksdjfh', test);
@@ -50,7 +71,7 @@ const NewTransaction: React.FunctionComponent<NewTransactionProps> = ({
   if (!user) return <>loading</>;
 
   function handleConfirm() {
-      if (able) db.users.update(user?.id ? user?.id : 0, {real: transactionValue, brita: buy}).then(function (updated) {
+      if (able && user) db.users.update(user?.id ? user?.id : 0, {real: user?.real - transactionValue, brita: user?.brita + buy}).then(function (updated) {
         if (updated)
           alert("Transação realizada com sucesso");
         else
@@ -72,9 +93,9 @@ const NewTransaction: React.FunctionComponent<NewTransactionProps> = ({
               handleChange(event.target.value, event.target.name)
             }
           >
-            <MenuItem value="real">Real</MenuItem>
-            <MenuItem value="bitcoin">Bitcoin</MenuItem>
-            <MenuItem value="brita">Brita</MenuItem>
+            {types.map((type: Type) => (
+              <MenuItem key={type.value} value={type.value}>{type.name}</MenuItem>
+            ))}
           </Select>
         </FormControl>
       </div>
@@ -88,9 +109,9 @@ const NewTransaction: React.FunctionComponent<NewTransactionProps> = ({
               handleChange(event.target.value, event.target.name)
             }
           >
-            <MenuItem value="real">Real</MenuItem>
-            <MenuItem value="bitcoin">Bitcoin</MenuItem>
-            <MenuItem value="brita">Brita</MenuItem>
+            {types.map((type: Type) => (
+              <MenuItem key={type.value} value={type.value}>{type.name}</MenuItem>
+            ))}
           </Select>
         </FormControl>
       </div>

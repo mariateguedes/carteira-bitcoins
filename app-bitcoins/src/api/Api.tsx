@@ -12,7 +12,7 @@ export const getApiMercadoBitcoin = () => {
         });
   }
   
-export const getCotacaoDolar = () => {
+export const getApiCotacaoDolar = () => {
     return axios
         .get("https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoDolarDia(dataCotacao=@dataCotacao)?@dataCotacao=%2702-18-2022%27&$top=101&$format=json&$select=cotacaoCompra,cotacaoVenda,dataHoraCotacao")
         .then((res) => {

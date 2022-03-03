@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   width: fit-content;
-  min-width: 12rem;
+  min-width: 18rem;
   margin-left: 40%;
   min-height: 50%;
   margin-top: 9rem;
