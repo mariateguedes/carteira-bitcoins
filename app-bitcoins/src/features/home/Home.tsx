@@ -50,7 +50,7 @@ const Home: React.FunctionComponent = () => {
     <>
       <ContainerPage>
       <Button onClick={() => setOpen(true)}>Vender/Trocar</Button>
-      <Modal open={open} onClose={() => setOpen(false)}><NewTransaction onClick={() => setOpen(false)} user={user && user} cotacaoDolar={cotacaoDolar && cotacaoDolar}/></Modal>
+      <Modal open={open} onClose={() => setOpen(false)}><NewTransaction onClick={() => setOpen(false)} user={user && user}/></Modal>
         <div style={{ display: "flex", justifyContent: "space-around" }}>
           <WalletContainer
             title="Real"
