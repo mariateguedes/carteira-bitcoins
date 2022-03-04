@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Grid, Modal, ThemeProvider, Typography } from "@material-ui/core";
+import {
+  Box,
+  Button,
+  Grid,
+  Modal,
+  ThemeProvider,
+  Typography,
+} from "@material-ui/core";
 import ContainerPage from "../../components/containerPage/ContainerPage";
 import axios from "axios";
 import ValuesContainer from "../../components/valuesContainer/ValuesContainer";
@@ -13,10 +20,10 @@ import { getCotacaoBitcoin, getCotacaoDolar } from "../CriptoBankSlice";
 import { useAppSelector } from "../../store";
 
 async function getUserData(userId: number) {
-  console.log('cegando', userId);
+  console.log("cegando", userId);
   try {
     const user = await db.users.where({ id: userId }).first();
-    console.log('useraqui', userId);
+    console.log("useraqui", userId);
     return user;
   } catch {
     alert("Não foi possível fazer login. Tente novamente.");
@@ -29,7 +36,9 @@ const Home: React.FunctionComponent = () => {
   const [user, setUser] = useState<User>();
   const dispatch = useDispatch();
 
-  const { cotacaoBitcoin, cotacaoDolar } = useAppSelector((store) => store.rootReducer.criptoBank);
+  const { cotacaoBitcoin, cotacaoDolar } = useAppSelector(
+    (store) => store.rootReducer.criptoBank
+  );
 
   console.log("user", user);
 
@@ -48,40 +57,41 @@ const Home: React.FunctionComponent = () => {
   return (
     <>
       <ContainerPage>
-      <Button onClick={() => setOpen(true)}>Vender/Trocar</Button>
-      <Modal open={open} onClose={() => setOpen(false)}><NewTransaction onClick={() => setOpen(false)} user={user && user}/></Modal>
-        <div style={{ display: "flex", justifyContent: "space-around" }}>
-          <WalletContainer
-            title="Real"
-            value={String(user?.real)}
-            type="real"
-          />
-          <ValuesContainer
-            title="Cotação Dolar"
-            sell={cotacaoDolar && cotacaoDolar.sell.toString()}
-            buy={cotacaoDolar && cotacaoDolar.buy.toString()}
-            type="dol"
-          />
-        </div>
-        <div style={{ display: "flex", justifyContent: "space-around" }}>
-          <WalletContainer
-            title="Bitcoin"
-            value={String(user?.bitcoin)}
-            type="real"
-          />
-          <ValuesContainer
-            title="Cotação Bitcoin"
-            sell={cotacaoBitcoin && cotacaoBitcoin.sell}
-            buy={cotacaoBitcoin && cotacaoBitcoin.buy}
-            type="real"
-          />
-        </div>
-        <div style={{ display: "flex", justifyContent: "space-around" }}>
-          <WalletContainer
-            title="Brita"
-            value={String(user?.brita)}
-            type="real"
-          />
+        <div style={{ display: "flex", flexDirection: "row" }}>
+          <div
+            style={{ display: "flex", flexDirection: "column", width: "50%" }}
+          >
+            <WalletContainer
+              title="Real"
+              value={String(user?.real)}
+              type="real"
+            />
+            <WalletContainer title="Bitcoin" value={String(user?.bitcoin)} />
+            <WalletContainer title="Brita" value={String(user?.brita)} />
+          </div>
+          <div
+            style={{ display: "flex", flexDirection: "column", justifyContent: 'center', width: "50%" }}
+          >
+            <Button onClick={() => setOpen(true)}>Vender/Trocar</Button>
+            <Modal open={open} onClose={() => setOpen(false)}>
+              <NewTransaction
+                onClick={() => setOpen(false)}
+                user={user && user}
+              />
+            </Modal>
+            <ValuesContainer
+              title="Cotação Dolar"
+              sell={cotacaoDolar && cotacaoDolar.sell.toString()}
+              buy={cotacaoDolar && cotacaoDolar.buy.toString()}
+              type="dol"
+            />
+            <ValuesContainer
+              title="Cotação Bitcoin"
+              sell={cotacaoBitcoin && cotacaoBitcoin.sell}
+              buy={cotacaoBitcoin && cotacaoBitcoin.buy}
+              type="real"
+            />
+          </div>
         </div>
       </ContainerPage>
     </>

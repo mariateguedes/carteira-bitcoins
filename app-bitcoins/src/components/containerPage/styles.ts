@@ -18,8 +18,11 @@ export const HeaderContainer = styled.div`
     display: flex;
     align-items: center;
     padding-right: 25%;
-    height: 5rem;
+    height: 5.5rem;
     justify-content: flex-end;
+    border-bottom: 2px solid #f1f1f1;
+    top: 0;
+    left: 0;
 `;
 
 export const Home = styled.div`
@@ -41,4 +44,7 @@ export const Data = styled.div`
     margin-bottom: 30%;
     margin-left: auto;
     margin-right: auto;
+    display: grid;
+    justify-content: center;
+    min-width: 18rem;
 `;

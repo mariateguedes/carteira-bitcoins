@@ -6,7 +6,7 @@ import { Container, Flex } from "./styles";
 interface WalletContainerProps {
   title: string;
   value: string;
-  type: "dol" | "real";
+  type?: string;
 }
 
 const WalletContainer: React.FunctionComponent<WalletContainerProps> = ({
@@ -20,7 +20,15 @@ const WalletContainer: React.FunctionComponent<WalletContainerProps> = ({
         {title}:
       </Typography>
       <Flex>
-        <div>{value}</div>
+        {type == "real" ? (
+          <Typography variant="h5" color="textSecondary">
+            R$ {value}
+          </Typography>
+        ) : (
+          <Typography variant="h5" color="textSecondary">
+            {value}
+          </Typography>
+        )}
       </Flex>
     </Container>
   );
