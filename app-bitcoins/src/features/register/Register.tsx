@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
-  Box,
   Button,
   TextField,
   ThemeProvider,
-  Typography,
+  Typography
 } from "@material-ui/core";
 import ContainerPage from "../../components/containerPage/ContainerPage";
 import axios from "axios";
 import { db } from "../../dataBase/db";
 import { useLiveQuery } from "dexie-react-hooks";
 import { FormContainer } from "./styles";
+import { useHistory } from "react-router-dom";
 
 const Register: React.FunctionComponent = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [status, setStatus] = useState("");
+  const history = useHistory();
 
   async function register() {
     try {
@@ -32,16 +32,15 @@ const Register: React.FunctionComponent = () => {
         brita,
       });
 
-      setStatus(`Friend ${name} successfully added. Got id ${id}`);
+      alert(`Usuário ${name} registrado com sucesso.`);
       setName("");
       setEmail("");
       setPassword("");
+      history.push('/login');
     } catch (error) {
-      setStatus(`Failed to add ${name}: ${error}`);
+      alert(`Falha ao criar usuário.`);
     }
   }
-
-  const users = useLiveQuery(() => db.users.toArray());
 
   return (
     <ContainerPage>
@@ -76,13 +75,6 @@ const Register: React.FunctionComponent = () => {
           Registrar
         </Button>
       </FormContainer>
-      <div>
-        <ul>
-          {users?.map((friend: any) => (
-            <li key={friend.id}>{friend.name}</li>
-          ))}
-        </ul>
-      </div>
     </ContainerPage>
   );
 };

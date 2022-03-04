@@ -19,7 +19,7 @@ const Login: React.FunctionComponent = () => {
         .first();
       if (user?.id) {
           setUser(user?.id, user.name);
-          history.push("/");
+          history.push("/home");
       }
       return user;
     } catch {
