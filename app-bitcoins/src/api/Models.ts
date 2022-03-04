@@ -1,10 +1,4 @@
-export interface CotacaoBitcoinResult {
+export interface CotacaoResult {
     sell: number;
     buy: number;
-}
-
-export interface CotacaoDolarResult {
-    cotacaoCompra: number;
-    cotacaoVenda: number;
-    dataHoraCotacao?: Date;
 }

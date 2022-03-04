@@ -1,5 +1,13 @@
 import Dexie, { Table } from 'dexie';
 
+export interface Transaction {
+  name: string;
+  value: number;
+}
+export interface TransactionType {
+  selled: Transaction;
+  bought: Transaction;
+}
 export interface User {
   id?: number;
   name: string;
@@ -8,6 +16,7 @@ export interface User {
   real: number;
   bitcoin: number;
   brita: number;
+  transaction?: TransactionType[];
 }
 
 export class MySubClassedDexie extends Dexie {

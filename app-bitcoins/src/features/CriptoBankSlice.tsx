@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getApiMercadoBitcoin, getApiCotacaoDolar } from "../api/Api";
-import { CotacaoBitcoinResult, CotacaoDolarResult } from "../api/Models";
+import { CotacaoResult } from "../api/Models";
 
 export const getCotacaoBitcoin = createAsyncThunk("getCotacaoBitcoin", async () =>
     getApiMercadoBitcoin()
@@ -12,8 +12,9 @@ export const getCotacaoDolar = createAsyncThunk(
 );
 
 interface FulFillmentUnitState {
-    cotacaoDolar: CotacaoDolarResult;
-    cotacaoBitcoin: CotacaoBitcoinResult;
+    cotacaoDolar: CotacaoResult;
+    cotacaoBitcoin: CotacaoResult;
+    cotacaoReal: CotacaoResult;
   }
 
 const initialState: FulFillmentUnitState = {
@@ -22,8 +23,12 @@ const initialState: FulFillmentUnitState = {
         sell: 0,
     },
     cotacaoDolar: {
-        cotacaoCompra: 0,
-        cotacaoVenda: 0
+      buy: 0,
+      sell: 0,
+    },
+    cotacaoReal: {
+      buy: 1,
+      sell: 1,
     }
 };
 
@@ -41,7 +46,8 @@ export const criptoBankSlice = createSlice({
         state.cotacaoBitcoin.sell = Number(parseFloat(action.payload.sell).toFixed(2));
     });
     builder.addCase(getCotacaoDolar.fulfilled, (state, action) => {
-        state.cotacaoDolar = action.payload.value[0];
+        state.cotacaoDolar.sell = action.payload.value[0].cotacaoVenda;
+        state.cotacaoDolar.buy = action.payload.value[0].cotacaoCompra;
       });
   },
 });

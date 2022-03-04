@@ -7,7 +7,6 @@ import {
   Typography,
 } from "@material-ui/core";
 import ContainerPage from "../../components/containerPage/ContainerPage";
-import { CotacaoDolarResult, CotacaoBitcoinResult } from "../../api/Models";
 import axios from "axios";
 import { db } from "../../dataBase/db";
 import { useLiveQuery } from "dexie-react-hooks";

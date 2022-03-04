@@ -8,9 +8,8 @@ import {
   TextField,
 } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import { CotacaoDolarResult } from "../../../api/Models";
 import ModalContainer from "../../../components/modalContainer/ModalContainer";
-import { db, User } from "../../../dataBase/db";
+import { db, TransactionType, User } from "../../../dataBase/db";
 import { useAppSelector } from "../../../store";
 
 interface Type {
@@ -36,20 +35,22 @@ const types: Type[] = [
 interface NewTransactionProps {
   onClick: () => void;
   user?: User;
-  cotacaoDolar?: CotacaoDolarResult;
 }
+
+type Option = 'real' | 'brita' | 'bitcoin';
 
 const NewTransaction: React.FunctionComponent<NewTransactionProps> = ({
   onClick,
   user,
 }) => {
-  const [optionFrom, setOptionFrom] = useState("");
-  const [optionTo, setOptionTo] = useState("");
+  const [optionFrom, setOptionFrom] = useState<Option>('real');
+  const [optionTo, setOptionTo] = useState<Option>('brita');
   const [buy, setBuy] = useState(0);
   const [transactionValue, setTransactionValue] = useState(0);
+  const [sellValue, setSellValue] = useState(0);
   const [able, setAble] = useState(false);
 
-  const { cotacaoBitcoin, cotacaoDolar } = useAppSelector(
+  const { cotacaoBitcoin, cotacaoDolar, cotacaoReal } = useAppSelector(
     (store) => store.rootReducer.criptoBank
   );
 
@@ -57,73 +58,50 @@ const NewTransaction: React.FunctionComponent<NewTransactionProps> = ({
     if (name == "from") setOptionFrom(value);
     else setOptionTo(value);
   }
+
+  const moedas = {
+    brita: cotacaoDolar,
+    bitcoin: cotacaoBitcoin,
+    real: cotacaoReal,
+  };
   
 
   function handleTransaction(value: number) {
     setBuy(value);
-    if (optionFrom == "real" && optionTo == "brita" && cotacaoDolar) {
-      const transaction =
-        value * cotacaoDolar.cotacaoVenda * cotacaoDolar.cotacaoVenda;
-      const balance = user && user?.real - transaction;
-      if (balance && balance > 0) setAble(true);
-      setTransactionValue(transaction);
+
+    if (!user) {
+      throw new Error("SEM Balanço");
     }
-    if (optionFrom == "real" && optionTo == "bitcoin" && cotacaoBitcoin) {
-      const transaction = value * cotacaoBitcoin.buy;
-      const balance = user && user?.real - transaction;
-      if (balance && balance > 0) setAble(true);
-      setTransactionValue(transaction);
-    }
-    if (optionFrom == "brita" && optionTo == "real" && cotacaoDolar) {
-      const transaction =
-        value * cotacaoDolar?.cotacaoVenda * cotacaoDolar?.cotacaoVenda;
-      const balance = user && user?.brita - value;
-      if (balance && balance > 0) setAble(true);
-      setTransactionValue(transaction);
-    }
-    if (optionFrom == "bitcoin" && optionTo == "real" && cotacaoBitcoin) {
-      const transaction = value * cotacaoBitcoin.sell;
-      const balance = user && user?.bitcoin - value;
-      if (balance && balance > 0) setAble(true);
-      setTransactionValue(transaction);
-    }
-    if (
-      optionFrom == "bitcoin" &&
-      optionTo == "brita" &&
-      cotacaoBitcoin &&
-      cotacaoDolar
-    ) {
-      const transaction =
-        value * cotacaoBitcoin.sell * cotacaoDolar?.cotacaoVenda;
-      const balance =
-        user && user?.brita * cotacaoDolar?.cotacaoVenda - transaction;
-      if (balance && balance > 0) setAble(true);
-      setTransactionValue(transaction);
-    }
-    if (
-      optionFrom == "brita" &&
-      optionTo == "bitcoin" &&
-      cotacaoBitcoin &&
-      cotacaoDolar &&
-      user
-    ) {
-      const transaction = value * cotacaoDolar?.cotacaoCompra;
-      const bitcoinDolar =
-        user.bitcoin * cotacaoBitcoin.buy * cotacaoDolar.cotacaoVenda;
-      const balance = user.brita * cotacaoDolar?.cotacaoVenda - bitcoinDolar;
-      if (balance && balance > 0) setAble(true);
-      setTransactionValue(transaction);
-    }
+    const transaction = value * moedas[optionFrom].sell * moedas[optionTo].buy;
+    const balance = (user)[optionFrom] - (transaction / moedas[optionFrom].sell);
+
+    setAble(balance > 0);
+    setTransactionValue(transaction);
+    setSellValue(transaction /  moedas[optionFrom].sell);
   }
   if (!user) return <>loading</>;
 
   function handleConfirm() {
     if (!able) alert("Saldo insuficiente para completar transação.");
+    let newTransaction = {
+      selled: {
+        name: optionFrom,
+        value: sellValue
+      },
+      bought: {
+        name: optionTo,
+        value: buy
+      }
+    }
+    let transactionList = [];
+    if (user?.transaction) transactionList = [...user.transaction, newTransaction];
+    else transactionList = [newTransaction];
     if (able && user)
       db.users
         .update(user?.id ? user?.id : 0, {
-          real: user?.real - transactionValue,
-          brita: user?.brita + buy,
+            [optionFrom]: user[optionFrom] - sellValue,
+            [optionTo]: user[optionTo] + buy,
+            transaction: transactionList
         })
         .then(function (updated) {
           if (updated) alert("Transação realizada com sucesso");
@@ -171,14 +149,14 @@ const NewTransaction: React.FunctionComponent<NewTransactionProps> = ({
           </Select>
         </FormControl>
       </div>
-      {optionFrom !== "" && (
+      { (
         <div style={{ display: "flex", flexDirection: "row" }}>
           {optionFrom == "real" && <>Valor na carteira: {user?.real}</>}
           {optionFrom == "bitcoin" && <>Valor na carteira: {user?.bitcoin}</>}
           {optionFrom == "brita" && <>Valor na carteira: {user?.brita}</>}
         </div>
       )}
-      {optionTo !== "" && (
+      {(
         <>
           <TextField
             id="time"

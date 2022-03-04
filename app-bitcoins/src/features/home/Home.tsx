@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Box, Button, Grid, Modal, ThemeProvider, Typography } from "@material-ui/core";
 import ContainerPage from "../../components/containerPage/ContainerPage";
-import { CotacaoDolarResult, CotacaoBitcoinResult } from "../../api/Models";
 import axios from "axios";
 import ValuesContainer from "../../components/valuesContainer/ValuesContainer";
 import { db, User } from "../../dataBase/db";
@@ -59,8 +58,8 @@ const Home: React.FunctionComponent = () => {
           />
           <ValuesContainer
             title="Cotação Dolar"
-            sell={cotacaoDolar && cotacaoDolar.cotacaoVenda.toString()}
-            buy={cotacaoDolar && cotacaoDolar.cotacaoCompra.toString()}
+            sell={cotacaoDolar && cotacaoDolar.sell.toString()}
+            buy={cotacaoDolar && cotacaoDolar.buy.toString()}
             type="dol"
           />
         </div>
