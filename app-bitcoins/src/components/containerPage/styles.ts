@@ -17,9 +17,8 @@ export const HeaderContainer = styled.div`
     background: #00CE73;
     display: flex;
     align-items: center;
-    padding-right: 25%;
     height: 5.5rem;
-    justify-content: flex-end;
+    justify-content: space-around;
     border-bottom: 2px solid #f1f1f1;
     top: 0;
     left: 0;
@@ -47,4 +46,16 @@ export const Data = styled.div`
     display: grid;
     justify-content: center;
     min-width: 18rem;
+`;
+
+export const UserContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    background: white;
+    width: 6.5rem;
+    height: 2.5rem;
+    border-radius: 7px;
+    box-shadow: 0 16px 22px -16px rgb(15 50 86 / 32%);
+    padding: 3px;
 `;

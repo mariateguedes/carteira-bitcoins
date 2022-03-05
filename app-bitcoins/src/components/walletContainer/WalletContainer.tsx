@@ -22,7 +22,7 @@ const WalletContainer: React.FunctionComponent<WalletContainerProps> = ({
       <Flex>
         {type == "real" ? (
           <Typography variant="h5" color="textSecondary">
-            R$ {value}
+            R$ {Number(value).toFixed(2)}
           </Typography>
         ) : (
           <Typography variant="h5" color="textSecondary">

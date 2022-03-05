@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   width: fit-content;
-  min-width: 18rem;
-  margin-left: 40%;
+  min-width: 30rem;
+  margin-left: 36%;
   min-height: 50%;
   margin-top: 9rem;
   background-color: white;
@@ -25,4 +25,6 @@ export const ContainerIcon = styled.div`
 
 export const ContainerData = styled.div`
   padding: 8%;
+  display: grid;
+  row-gap: 1rem;
 `;

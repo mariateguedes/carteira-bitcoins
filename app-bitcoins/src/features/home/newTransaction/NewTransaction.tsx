@@ -6,8 +6,10 @@ import {
   MenuItem,
   Select,
   TextField,
+  Typography,
 } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import ModalContainer from "../../../components/modalContainer/ModalContainer";
 import { db, TransactionType, User } from "../../../dataBase/db";
 import { useAppSelector } from "../../../store";
@@ -34,23 +36,23 @@ const types: Type[] = [
 
 interface NewTransactionProps {
   onClick: () => void;
-  user?: User;
 }
 
 type Option = 'real' | 'brita' | 'bitcoin';
 
 const NewTransaction: React.FunctionComponent<NewTransactionProps> = ({
-  onClick,
-  user,
+  onClick
 }) => {
   const [optionFrom, setOptionFrom] = useState<Option>('real');
   const [optionTo, setOptionTo] = useState<Option>('brita');
   const [buy, setBuy] = useState(0);
+  const [boughtValue, setBoughtValue] = useState(0);
   const [transactionValue, setTransactionValue] = useState(0);
   const [sellValue, setSellValue] = useState(0);
   const [able, setAble] = useState(false);
+  const history = useHistory();
 
-  const { cotacaoBitcoin, cotacaoDolar, cotacaoReal } = useAppSelector(
+  const { cotacaoBitcoin, cotacaoDolar, cotacaoReal, user } = useAppSelector(
     (store) => store.rootReducer.criptoBank
   );
 
@@ -78,6 +80,9 @@ const NewTransaction: React.FunctionComponent<NewTransactionProps> = ({
     setAble(balance > 0);
     setTransactionValue(transaction);
     setSellValue(transaction /  moedas[optionFrom].sell);
+    if (optionTo == 'real') setBoughtValue(transaction)
+    else setBoughtValue(value)
+
   }
   if (!user) return <>loading</>;
 
@@ -90,7 +95,7 @@ const NewTransaction: React.FunctionComponent<NewTransactionProps> = ({
       },
       bought: {
         name: optionTo,
-        value: buy
+        value: boughtValue
       }
     }
     let transactionList = [];
@@ -104,16 +109,16 @@ const NewTransaction: React.FunctionComponent<NewTransactionProps> = ({
             transaction: transactionList
         })
         .then(function (updated) {
-          if (updated) alert("Transação realizada com sucesso");
+          if (updated) {alert("Transação realizada com sucesso"); onClick()}
           else alert("Não foi possível realizar a transação");
         });
   }
 
   return (
     <ModalContainer onClick={onClick}>
-      <div>Fazer nova transação</div>
-      <div>
-        <FormControl fullWidth>
+      <Typography variant="h5">Fazer nova transação</Typography>
+      <div style={{ display: "flex", flexDirection: "row", justifyContent: 'space-around' }}>
+        <FormControl>
           <InputLabel>Vender</InputLabel>
           <Select
             autoWidth
@@ -130,9 +135,7 @@ const NewTransaction: React.FunctionComponent<NewTransactionProps> = ({
             ))}
           </Select>
         </FormControl>
-      </div>
-      <div>
-        <FormControl fullWidth>
+        <FormControl>
           <InputLabel>Comprar</InputLabel>
           <Select
             value={optionTo}
@@ -150,22 +153,25 @@ const NewTransaction: React.FunctionComponent<NewTransactionProps> = ({
         </FormControl>
       </div>
       { (
-        <div style={{ display: "flex", flexDirection: "row" }}>
-          {optionFrom == "real" && <>Valor na carteira: {user?.real}</>}
-          {optionFrom == "bitcoin" && <>Valor na carteira: {user?.bitcoin}</>}
-          {optionFrom == "brita" && <>Valor na carteira: {user?.brita}</>}
+        <div style={{ display: "flex", flexDirection: "row", justifyContent: 'center' }}>
+          <Typography>Valor na carteira em {optionFrom}: {optionFrom == 'real' && (<>R$</>)}{user?.[optionFrom].toFixed(2)}</Typography>
         </div>
       )}
       {(
         <>
+        <div style={{display: 'grid', justifyContent: 'center'}}>
           <TextField
+            size="medium"
             id="time"
             type="number"
-            label={optionTo}
+            label={`Quanto comprar em ${optionTo}?`}
             value={buy}
             onChange={(e) => handleTransaction(Number(e.target.value))}
           />
-          <div>Valor da transação em real: {transactionValue}</div>
+          </div>
+          <div style={{ display: "flex", flexDirection: "row", justifyContent: 'center' }}>
+          <Typography>Valor da transação em real: R$ {transactionValue.toFixed(2)}</Typography>
+          </div>
         </>
       )}
       <Button variant="contained" color="primary" onClick={handleConfirm}>
