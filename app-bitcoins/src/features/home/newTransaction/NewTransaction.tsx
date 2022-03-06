@@ -26,7 +26,7 @@ const NewTransaction: React.FunctionComponent<NewTransactionProps> = ({
     useAppSelector((store) => store.rootReducer.criptoBank);
 
   function handleChange(value: any, name: any) {
-    if (name == "from") setOptionFrom(value);
+    if (name == "optionFrom") setOptionFrom(value);
     else setOptionTo(value);
   }
 
@@ -65,11 +65,13 @@ const NewTransaction: React.FunctionComponent<NewTransactionProps> = ({
           label="Vender"
           value={optionFrom}
           onChange={handleChange}
+          name="optionFrom"
         />
         <CurrencySelection
           label="Comprar"
           value={optionTo}
           onChange={handleChange}
+          name="optionTo"
         />
       </Grid>
       <Grid container direction="row" justifyContent="center">

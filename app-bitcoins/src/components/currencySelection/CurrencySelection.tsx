@@ -31,12 +31,14 @@ interface CurrencySelectionProps {
   onChange: (name: any, value: any) => void;
   value: Option;
   label: string;
+  name: string;
 }
 
 const CurrencySelection: React.FunctionComponent<CurrencySelectionProps> = ({
   onChange,
   value,
-  label
+  label,
+  name
 }) => {
   return (
     <FormControl>
@@ -44,7 +46,7 @@ const CurrencySelection: React.FunctionComponent<CurrencySelectionProps> = ({
       <Select
         autoWidth
         value={value}
-        name="from"
+        name={name}
         onChange={(event) => onChange(event.target.value, event.target.name)}
       >
         {types.map((type: Type) => (

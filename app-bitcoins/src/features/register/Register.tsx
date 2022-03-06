@@ -33,7 +33,7 @@ const Register: React.FunctionComponent = () => {
       setName("");
       setEmail("");
       setPassword("");
-      history.push('/login');
+      history.push('/');
     } catch (error) {
       alert(`Falha ao criar usuário.`);
     }
