@@ -1,11 +1,11 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
+  position: relative;
+  margin: 11% auto;
   width: fit-content;
   min-width: 30rem;
-  margin-left: 36%;
   min-height: 50%;
-  margin-top: 9rem;
   background-color: white;
   column-gap: 12px;
   padding: 0.7rem 1.15rem 1.3rem 1.15rem;

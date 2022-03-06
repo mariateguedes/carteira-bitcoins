@@ -9,7 +9,7 @@ Para iniciar o projeto você vai precisar:
 $ git clone https://github.com/mariateguedes/star-wars
 
 # Abrir o repositório
-$ cd star-wars
+$ cd carteira-bitcoins
 
 # Instalar as dependências
 $ npm install
