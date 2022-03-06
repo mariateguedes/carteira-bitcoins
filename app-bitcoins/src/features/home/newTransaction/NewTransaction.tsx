@@ -1,5 +1,6 @@
 import { Button, Grid, TextField, Typography } from "@material-ui/core";
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { Option } from "../../../api/Models";
 import CurrencySelection from "../../../components/currencySelection/CurrencySelection";
 import ModalContainer from "../../../components/modalContainer/ModalContainer";
@@ -17,10 +18,9 @@ const NewTransaction: React.FunctionComponent<NewTransactionProps> = ({
   const [optionFrom, setOptionFrom] = useState<Option>("real");
   const [optionTo, setOptionTo] = useState<Option>("brita");
   const [buy, setBuy] = useState(0);
-  const [boughtValue, setBoughtValue] = useState(0);
   const [transactionValue, setTransactionValue] = useState(0);
-  const [sellValue, setSellValue] = useState(0);
   const dispatch = useAppDispatch();
+  const history = useHistory();
 
   const { cotacaoBitcoin, cotacaoDolar, cotacaoReal, user, transactionValues } =
     useAppSelector((store) => store.rootReducer.criptoBank);
@@ -101,7 +101,7 @@ const NewTransaction: React.FunctionComponent<NewTransactionProps> = ({
       <Button
         variant="contained"
         color="primary"
-        onClick={() => confirmTransaction(transactionValues, user)}
+        onClick={() => {confirmTransaction(transactionValues, user); onClick()}}
       >
         Concluir transação
       </Button>

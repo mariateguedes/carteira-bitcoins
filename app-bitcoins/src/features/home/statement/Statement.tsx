@@ -3,7 +3,6 @@ import React from "react";
 import { TransactionType } from "../../../api/Models";
 import ModalContainer from "../../../components/modalContainer/ModalContainer";
 import TransactionRow from "../../../components/transactionRow/TransactionRow";
-import { db } from "../../../dataBase/db";
 import { useAppSelector } from "../../../store";
 
 interface StatementProps {
@@ -17,7 +16,7 @@ const Statement: React.FunctionComponent<StatementProps> = ({ onClick }) => {
     <ModalContainer onClick={onClick}>
       <Typography variant="h5">Extrato de transações</Typography>
       <div>
-        {user.transaction.map((trans: TransactionType, i: number) => (
+        {user.transaction && user.transaction.map((trans: TransactionType, i: number) => (
           <TransactionRow key={i} selled={trans.selled} bought={trans.bought} />
         ))}
       </div>

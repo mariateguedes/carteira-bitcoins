@@ -31,7 +31,7 @@ const Home: React.FunctionComponent = () => {
   const { userId, userName } = useAuthentication();
   const dispatch = useDispatch();
 
-  const { cotacaoBitcoin, cotacaoDolar, user } = useAppSelector(
+  const { cotacaoBitcoin, cotacaoDolar, user, transactionValues } = useAppSelector(
     (store) => store.rootReducer.criptoBank
   );
 
@@ -43,7 +43,7 @@ const Home: React.FunctionComponent = () => {
     });
     dispatch(getCotacaoDolar());
     dispatch(getCotacaoBitcoin());
-  }, []);
+  }, [open]);
 
   return (
     <ContainerPage>
