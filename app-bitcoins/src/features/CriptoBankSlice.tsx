@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getApiMercadoBitcoin, getApiCotacaoDolar } from "../api/Api";
-import { CotacaoResult } from "../api/Models";
-import { User } from "../dataBase/db";
+import { CotacaoResult, Option, TransactionValues, User } from "../api/Models";
 
 export const getCotacaoBitcoin = createAsyncThunk("getCotacaoBitcoin", async () =>
     getApiMercadoBitcoin()
@@ -17,6 +16,7 @@ interface FulFillmentUnitState {
     cotacaoBitcoin: CotacaoResult;
     cotacaoReal: CotacaoResult;
     user: User;
+    transactionValues: TransactionValues;
   }
 
 const initialState: FulFillmentUnitState = {
@@ -39,7 +39,14 @@ const initialState: FulFillmentUnitState = {
       real: 0,
       bitcoin: 0,
       brita: 0
-    }
+    },
+    transactionValues: {
+      able: false,
+      optionFrom: 'real',
+      optionTo: 'brita',
+      sellValue: 0,
+      boughtValue: 0
+    } 
 };
 
 export const criptoBankSlice = createSlice({
@@ -48,6 +55,9 @@ export const criptoBankSlice = createSlice({
   reducers: {
     setUser: (state, action) => {
       state.user = action.payload;
+    },
+    setTransactionValues: (state, action) => {
+      state.transactionValues = action.payload;
     }
   },
   extraReducers: (builder) => {
@@ -62,7 +72,7 @@ export const criptoBankSlice = createSlice({
   },
 });
 
-export const { setUser } =
+export const { setUser, setTransactionValues } =
   criptoBankSlice.actions;
 
 export default criptoBankSlice.reducer;

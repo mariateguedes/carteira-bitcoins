@@ -1,8 +1,8 @@
 import React from "react";
 import { RowContainer } from "./styles";
 import { Typography } from "@material-ui/core";
-import { Transaction } from "../../dataBase/db";
 import { DoubleArrow } from "@material-ui/icons";
+import { Transaction } from "../../api/Models";
 
 interface ModalContainerProps {
   selled: Transaction;

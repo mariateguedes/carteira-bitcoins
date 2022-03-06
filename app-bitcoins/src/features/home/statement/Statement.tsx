@@ -1,17 +1,9 @@
-import {
-  Button,
-  FormControl,
-  Grid,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-  Typography,
-} from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import { Typography } from "@material-ui/core";
+import React from "react";
+import { TransactionType } from "../../../api/Models";
 import ModalContainer from "../../../components/modalContainer/ModalContainer";
 import TransactionRow from "../../../components/transactionRow/TransactionRow";
-import { db, TransactionType, User } from "../../../dataBase/db";
+import { db } from "../../../dataBase/db";
 import { useAppSelector } from "../../../store";
 
 interface StatementProps {

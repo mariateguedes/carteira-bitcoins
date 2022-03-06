@@ -2,13 +2,10 @@ import React, { useState } from "react";
 import {
   Button,
   TextField,
-  ThemeProvider,
   Typography
 } from "@material-ui/core";
 import ContainerPage from "../../components/containerPage/ContainerPage";
-import axios from "axios";
 import { db } from "../../dataBase/db";
-import { useLiveQuery } from "dexie-react-hooks";
 import { FormContainer } from "./styles";
 import { useHistory } from "react-router-dom";
 

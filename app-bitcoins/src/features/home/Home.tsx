@@ -1,21 +1,13 @@
 import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Button,
-  Grid,
-  Modal,
-  ThemeProvider,
-  Typography
-} from "@material-ui/core";
+import { Button, Grid, Modal } from "@material-ui/core";
 import ContainerPage from "../../components/containerPage/ContainerPage";
 import axios from "axios";
 import ValuesContainer from "../../components/valuesContainer/ValuesContainer";
-import { db, User } from "../../dataBase/db";
+import { db } from "../../dataBase/db";
 import WalletContainer from "../../components/walletContainer/WalletContainer";
 import { useAuthentication } from "../../authentication/AuthenticationProvider";
-import ModalContainer from "../../components/modalContainer/ModalContainer";
 import NewTransaction from "./newTransaction/NewTransaction";
-import { DefaultRootState, useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   getCotacaoBitcoin,
   getCotacaoDolar,
@@ -54,63 +46,69 @@ const Home: React.FunctionComponent = () => {
   }, []);
 
   return (
-    <>
-      <ContainerPage>
-        <div style={{ display: "flex", flexDirection: "row" }}>
-          <div
-            style={{ display: "flex", flexDirection: "column", width: "50%" }}
+    <ContainerPage>
+      <Grid container direction="row" spacing={2}>
+        <Grid direction="column" container item xs={6} md={6}>
+          <WalletContainer
+            title="Real"
+            value={String(user?.real)}
+            type="real"
+          />
+          <WalletContainer title="Bitcoin" value={String(user.bitcoin)} />
+          <WalletContainer title="Brita" value={String(user.brita)} />
+        </Grid>
+        <Grid
+          direction="column"
+          container
+          item
+          xs={6}
+          md={6}
+          alignItems="center"
+        >
+          <Grid
+            direction="column"
+            container
+            justifyContent="center"
+            alignItems="center"
+            style={{ rowGap: "1rem" }}
           >
-            <WalletContainer
-              title="Real"
-              value={String(user?.real)}
-              type="real"
-            />
-            <WalletContainer title="Bitcoin" value={String(user.bitcoin)} />
-            <WalletContainer title="Brita" value={String(user.brita)} />
-          </div>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              width: "50%",
-              alignItems: 'center'
-            }}
-          >
-            <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              width: '60%',
-              justifyContent: 'center',
-              rowGap: '1rem'
-            }}
-          >
-            <Button variant="contained" onClick={() => setOpen(true)} endIcon={<Transform />} size="medium" >Fazer transação</Button>
+            <Button
+              variant="contained"
+              onClick={() => setOpen(true)}
+              endIcon={<Transform />}
+              size="medium"
+            >
+              Fazer transação
+            </Button>
             <Modal open={open} onClose={() => setOpen(false)}>
               <NewTransaction onClick={() => setOpen(false)} />
             </Modal>
-            <Button variant="contained" onClick={() => setOpenStatement(true)} endIcon={<Receipt />} >Visualizar Extrato</Button>
+            <Button
+              variant="contained"
+              onClick={() => setOpenStatement(true)}
+              endIcon={<Receipt />}
+            >
+              Visualizar Extrato
+            </Button>
             <Modal open={openStatement} onClose={() => setOpenStatement(false)}>
               <Statement onClick={() => setOpenStatement(false)} />
             </Modal>
-            </div>
-            <ValuesContainer
-              title="Cotação Dolar"
-              sell={cotacaoDolar && cotacaoDolar.sell.toString()}
-              buy={cotacaoDolar && cotacaoDolar.buy.toString()}
-              type="dol"
-            />
-            <ValuesContainer
-              title="Cotação Bitcoin"
-              sell={cotacaoBitcoin && cotacaoBitcoin.sell}
-              buy={cotacaoBitcoin && cotacaoBitcoin.buy}
-              type="real"
-            />
-          </div>
-        </div>
-      </ContainerPage>
-    </>
+          </Grid>
+          <ValuesContainer
+            title="Cotação Dolar"
+            sell={cotacaoDolar && cotacaoDolar.sell.toString()}
+            buy={cotacaoDolar && cotacaoDolar.buy.toString()}
+            type="dol"
+          />
+          <ValuesContainer
+            title="Cotação Bitcoin"
+            sell={cotacaoBitcoin && cotacaoBitcoin.sell}
+            buy={cotacaoBitcoin && cotacaoBitcoin.buy}
+            type="real"
+          />
+        </Grid>
+      </Grid>
+    </ContainerPage>
   );
 };
 
