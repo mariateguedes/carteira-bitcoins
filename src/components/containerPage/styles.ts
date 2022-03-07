@@ -6,11 +6,9 @@ export const Container = styled.div`
     display: table;
     width: 100%;
     height: 100%;
-    min-height: 900px;
     margin-left: auto;
     margin-right: auto;
-    max-width: 3000px;
-    max-height: 3000px;
+    overflow: hidden;
 `;
 
 export const HeaderContainer = styled.div`
@@ -29,10 +27,9 @@ export const Home = styled.div`
     background: whitesmoke;
     height: auto;
     padding-top: 30px;
-    padding-bottom: 15px;
-    margin-bottom: 20px;
     margin-left: auto;
     margin-right: auto;
+    overflow: hidden;
 `;
 
 export const Data = styled.div`
