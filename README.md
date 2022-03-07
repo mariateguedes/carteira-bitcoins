@@ -6,7 +6,7 @@ Para iniciar o projeto você vai precisar:
 
 ```bash
 # Clonar o repositório
-$ git clone https://github.com/mariateguedes/star-wars
+$ git clone https://github.com/mariateguedes/carteira-bitcoins
 
 # Abrir o repositório
 $ cd carteira-bitcoins

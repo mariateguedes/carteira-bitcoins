@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Grid, Modal } from "@material-ui/core";
 import ContainerPage from "../../components/containerPage/ContainerPage";
-import axios from "axios";
 import ValuesContainer from "../../components/valuesContainer/ValuesContainer";
 import { db } from "../../dataBase/db";
 import WalletContainer from "../../components/walletContainer/WalletContainer";
@@ -16,6 +15,7 @@ import {
 import { useAppSelector } from "../../store";
 import { Transform, Receipt } from "@material-ui/icons";
 import Statement from "./statement/Statement";
+import { getDate } from "./getDate";
 
 async function getUserData(userId: number) {
   try {
@@ -31,7 +31,7 @@ const Home: React.FunctionComponent = () => {
   const { userId, userName } = useAuthentication();
   const dispatch = useDispatch();
 
-  const { cotacaoBitcoin, cotacaoDolar, user, transactionValues } = useAppSelector(
+  const { cotacaoBitcoin, cotacaoDolar, user } = useAppSelector(
     (store) => store.rootReducer.criptoBank
   );
 
@@ -41,7 +41,7 @@ const Home: React.FunctionComponent = () => {
     getUserData(userId).then((res) => {
       dispatch(setUser(res));
     });
-    dispatch(getCotacaoDolar());
+    dispatch(getCotacaoDolar(getDate()));
     dispatch(getCotacaoBitcoin());
   }, [open]);
 

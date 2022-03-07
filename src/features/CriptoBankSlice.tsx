@@ -8,7 +8,7 @@ export const getCotacaoBitcoin = createAsyncThunk("getCotacaoBitcoin", async () 
 
 export const getCotacaoDolar = createAsyncThunk(
   "getCotacaoDolar",
-  async () => getApiCotacaoDolar()
+  async (date: string) => getApiCotacaoDolar(date)
 );
 
 interface FulFillmentUnitState {

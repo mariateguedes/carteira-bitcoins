@@ -18,9 +18,10 @@ const Login: React.FunctionComponent = () => {
         .where({ email: email, password: password })
         .first();
       if (user?.id) {
-          setUser(user?.id, user.name);
-          history.push("/home");
-      }
+        setUser(user?.id, user.name);
+        history.push("/home");
+      } else alert("Não foi possível fazer login. Tente novamente.");
+
       return user;
     } catch {
       alert("Não foi possível fazer login. Tente novamente.");
