@@ -1,7 +1,7 @@
 # Carteira Bitcoins
 
 Carteira Bitcoins é um projeto que busca demonstrar conhecimento em ReactJs e TypeScript através desta aplicação que cria carteiras virtuais de criptomoedas em que o usuário pode fazer transações entre elas.
-O banco de dados utilizado para salvar as informações da carteira do usuário foi o IndexedDB.
+O banco de dados utilizado para salvar as informações da carteira do usuário foi o **IndexedDB** na tabela *myDatabase*.
 
 Para iniciar o projeto você vai precisar:
 
