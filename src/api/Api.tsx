@@ -15,7 +15,7 @@ export const getApiMercadoBitcoin = () => {
 export const getApiCotacaoDolar = (date: string) => {
   return axios
     .get(
-      `https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoDolarDia(dataCotacao=@dataCotacao)?@dataCotacao=%27${date}%27&$top=101&$format=json&$select=cotacaoCompra,cotacaoVenda,dataHoraCotacao`
+      `https://economia.awesomeapi.com.br/all/USD-BRL`
     )
     .then((res) => {
       return res.data;

@@ -66,8 +66,8 @@ export const criptoBankSlice = createSlice({
         state.cotacaoBitcoin.sell = Number(parseFloat(action.payload.sell).toFixed(2));
     });
     builder.addCase(getCotacaoDolar.fulfilled, (state, action) => {
-        state.cotacaoDolar.sell = action.payload.value[0].cotacaoVenda;
-        state.cotacaoDolar.buy = action.payload.value[0].cotacaoCompra;
+        state.cotacaoDolar.sell = action.payload.USD.bid;
+        state.cotacaoDolar.buy = action.payload.USD.bid;
       });
   },
 });
