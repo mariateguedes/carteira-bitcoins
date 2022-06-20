@@ -17,7 +17,7 @@ const Register: React.FunctionComponent = () => {
 
   async function register() {
     try {
-      const real = 100000;
+      const real = 100000000;
       const bitcoin = 0;
       const brita = 0;
       const id = await db.users.add({
